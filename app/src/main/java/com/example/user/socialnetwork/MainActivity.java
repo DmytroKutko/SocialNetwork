@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void userMenuSelector(MenuItem item) {
+
         switch (item.getItemId()) {
             case R.id.nav_post:
                 Toast.makeText(this, "Post", Toast.LENGTH_SHORT).show();
