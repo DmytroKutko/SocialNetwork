@@ -4,8 +4,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -14,8 +16,10 @@ public class MainActivity extends AppCompatActivity {
 
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle actionBarDrawerToggle;
     private RecyclerView rvAllUsersPostList;
     private View headerView;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +34,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        toolbar = findViewById(R.id.mainPageToolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Home page");
+
         drawerLayout = findViewById(R.id.dlMain);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(
+                MainActivity.this,
+                drawerLayout,
+                R.string.drawer_open,
+                R.string.drawer_close
+        );
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        actionBarDrawerToggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         navigationView = findViewById(R.id.nvMenu);
         headerView = navigationView.inflateHeaderView(R.layout.navigation_header);
 
@@ -41,6 +59,16 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (actionBarDrawerToggle.onOptionsItemSelected(item)){
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void userMenuSelector(MenuItem item) {
